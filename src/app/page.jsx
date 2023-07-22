@@ -10,12 +10,9 @@ const getUsers = async () => {
 const MainPage = async () => {
   const users = await getUsers()
   return (
-    <div>
-      <h1>
-        MainPage
-      </h1>
+    <>
       <Users users={users} />
-    </div>
+    </>
   )
 }
 
