@@ -11,27 +11,22 @@ import ReactFlow, {
   NodeToolbar,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
-
-const initialNodes = [
-  { id: '1', position: { x: 50, y: 50 }, data: { label: <h6>hello world</h6> }, type: 'input' },
-  { id: '2', position: { x: 50, y: 150 }, data: { label: 'seconbd one' } },
-  { id: '3', position: { x: 50, y: 250 }, data: { label: 'etapa 3' } },
-  { id: '4', position: { x: 50, y: 350 }, data: { label: 'Etapa 4' }, type: 'output' },
-]
-const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2' },
-  { id: 'e2-1', source: '2', target: '3', animated: true },
-]
+import { initialEdges } from '@/components/flows/edges'
+import { initialNodes } from '@/components/flows/nodes'
 
 const FlowsPage = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
-  const defaultEdgeOptions = { animated: true }
+  const defaultEdgeOptions = { type: 'step' }
+  // const defaultNodeOptions = { type: 'input' }
 
   const onConnect = useCallback(
     (connection) => setEdges((edge) => addEdge({ ...connection }, edge)),
     [setEdges]
   )
+
+  console.log('nodes', nodes)
+  console.log('edges', edges)
 
   return (
     <>
@@ -49,6 +44,10 @@ const FlowsPage = () => {
           onConnect={onConnect}
           //Para que los edges(conectores) sean animados por defecto
           defaultEdgeOptions={defaultEdgeOptions}
+          //Para darle estilo al tablero
+          // style={{ backgroundColor: '#787878' }}
+          //Para iniciar la vista en el centro del tablero
+          fitView
         >
           {/* CONTROLS --> para agregar los controles de zoom, centrar, y bloquear la vista */}
           <Controls />
@@ -56,8 +55,10 @@ const FlowsPage = () => {
           <MiniMap />
           {/* BACKGROUND --> para el diseno del tablero */}
           <Background
-            //existen las variantes dots, lines,
-            variant='lines'
+            //existen las variantes dots, lines, cross
+            variant='cross'
+            // color='#767676'
+            back
             gap={12}
             size={1}
           />
